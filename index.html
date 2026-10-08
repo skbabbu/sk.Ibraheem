@@ -1,0 +1,3878 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>GYMPRO - Gym Management System</title>
+
+<style>
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    overflow-x: hidden;
+    background: #f4f6f9;
+    color: #222;
+}
+
+/* ================= SIDEBAR ================= */
+
+.sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 240px;
+    height: 100vh;
+    background: #111827;
+    color: white;
+    padding: 20px 15px;
+    overflow-y: auto;
+}
+
+.logo {
+    text-align: center;
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 30px;
+    letter-spacing: 2px;
+}
+
+.logo span {
+    color: #22c55e;
+}
+
+.menu-btn {
+    width: 100%;
+    padding: 13px;
+    margin: 5px 0;
+    border: none;
+    background: transparent;
+    color: #d1d5db;
+    text-align: left;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 15px;
+}
+
+.menu-btn:hover,
+.menu-btn.active {
+    background: #22c55e;
+    color: white;
+}
+
+/* ================= MAIN ================= */
+
+.main {
+    margin-left: 240px;
+    padding: 25px;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.header h1 {
+    font-size: 28px;
+}
+
+.header p {
+    color: #6b7280;
+}
+
+/* ================= CARDS ================= */
+
+.cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 18px;
+    margin-bottom: 25px;
+}
+
+.card {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+}
+
+.card h3 {
+    color: #6b7280;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.card h2 {
+    font-size: 28px;
+}
+
+/* ================= SECTIONS ================= */
+
+.section {
+    display: none;
+}
+
+.section.active {
+    display: block;
+}
+
+.section-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+/* ================= BUTTONS ================= */
+
+button {
+    cursor: pointer;
+}
+
+.primary-btn {
+    background: #22c55e;
+    border: none;
+    color: white;
+    padding: 11px 18px;
+    border-radius: 7px;
+    font-weight: bold;
+}
+
+.primary-btn:hover {
+    background: #16a34a;
+}
+
+.edit-btn {
+    background: #3b82f6;
+    color: white;
+    border: none;
+    padding: 7px 10px;
+    border-radius: 5px;
+}
+
+.delete-btn {
+    background: #ef4444;
+    color: white;
+    border: none;
+    padding: 7px 10px;
+    border-radius: 5px;
+}
+
+.renew-btn {
+    background: #8b5cf6;
+    color: white;
+    border: none;
+    padding: 7px 10px;
+    border-radius: 5px;
+}
+
+.payment-btn {
+    background: #f59e0b;
+    color: white;
+    border: none;
+    padding: 7px 10px;
+    border-radius: 5px;
+}
+
+/* ================= TABLE ================= */
+
+.table-container {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    overflow-x: auto;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th,
+td {
+    padding: 13px;
+    border-bottom: 1px solid #e5e7eb;
+    text-align: left;
+    font-size: 14px;
+}
+
+th {
+    background: #f9fafb;
+}
+
+tr:hover {
+    background: #f9fafb;
+}
+
+/* ================= STATUS ================= */
+
+.status {
+    padding: 5px 9px;
+    border-radius: 15px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.paid {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.pending {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.overdue {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+.active-status {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.inactive-status {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+/* ================= MODAL ================= */
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.55);
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-box {
+    background: white;
+    width: 95%;
+    max-width: 600px;
+    max-height: 90vh;
+    overflow-y: auto;
+    padding: 25px;
+    border-radius: 12px;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.close {
+    font-size: 25px;
+    cursor: pointer;
+    color: #666;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group.full {
+    grid-column: 1 / -1;
+}
+
+.form-group label {
+    margin-bottom: 6px;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.form-group input,
+.form-group select {
+    padding: 10px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    outline: none;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    border-color: #22c55e;
+}
+
+.form-submit {
+    margin-top: 20px;
+    width: 100%;
+}
+
+/* ================= INFO BOX ================= */
+
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 18px;
+}
+
+.info-card {
+    background: white;
+    padding: 22px;
+    border-radius: 12px;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.07);
+}
+
+.info-card h3 {
+    margin-bottom: 12px;
+    color: #111827;
+}
+
+.info-card p {
+    color: #6b7280;
+    line-height: 1.6;
+}
+
+/* ================= ALERTS ================= */
+
+.alert {
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    background: #fff7ed;
+    border-left: 5px solid #f97316;
+}
+
+.no-alert {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+
+/* ================= WORKOUT + NUTRITION ================= */
+.plan-toolbar { display:flex; gap:10px; flex-wrap:wrap; margin-bottom:18px; }
+.day-card { background:white; border-radius:12px; padding:18px; box-shadow:0 3px 12px rgba(0,0,0,.07); margin-bottom:14px; }
+.day-card h3 { color:#111827; margin-bottom:8px; }
+.day-card p { color:#64748b; line-height:1.55; margin:4px 0; }
+.exercise-list { margin:10px 0 0 18px; color:#374151; line-height:1.8; }
+.tag { display:inline-block; padding:4px 8px; border-radius:12px; background:#eef2ff; color:#3730a3; font-size:12px; font-weight:700; margin:2px 4px 2px 0; }
+.inventory-summary { display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:14px; margin-bottom:18px; }
+.mini-card { background:white; padding:16px; border-radius:10px; box-shadow:0 2px 10px rgba(0,0,0,.06); }
+.mini-card small { color:#64748b; display:block; margin-bottom:6px; }
+.mini-card strong { font-size:22px; }
+.food-table-wrap { overflow-x:auto; background:white; border-radius:12px; box-shadow:0 3px 12px rgba(0,0,0,.07); }
+.stock-ok { background:#dcfce7; color:#166534; padding:5px 9px; border-radius:14px; font-size:12px; font-weight:700; }
+.stock-low { background:#fef3c7; color:#92400e; padding:5px 9px; border-radius:14px; font-size:12px; font-weight:700; }
+.stock-out { background:#fee2e2; color:#991b1b; padding:5px 9px; border-radius:14px; font-size:12px; font-weight:700; }
+.price-profit { font-weight:700; color:#166534; }
+.plan-select { padding:10px; border:1px solid #d1d5db; border-radius:7px; background:white; }
+
+@media(max-width:800px){
+    .header,.section-title { flex-wrap:wrap; gap:12px; }
+    .food-table-wrap { font-size:12px; }
+    th,td { white-space:nowrap; padding:9px; }
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media(max-width: 800px) {
+
+    .sidebar {
+        width: 190px;
+    }
+
+    .main {
+        margin-left: 190px;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .form-group.full {
+        grid-column: auto;
+    }
+}
+
+
+/* ================= DEMO LOGIN ================= */
+#loginPage {
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    display: flex;
+    align-items: stretch;
+    justify-content: center;
+    padding: 22px;
+    background:
+        linear-gradient(90deg, rgba(3,8,15,.25), rgba(3,8,15,.52)),
+        url('GYMPRO_login_bg.jpg') center / cover no-repeat;
+    overflow-y: auto;
+}
+
+#loginPage::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(circle at 15% 20%, rgba(34,197,94,.16), transparent 28%),
+        linear-gradient(120deg, rgba(0,0,0,.10), rgba(0,0,0,.42));
+    pointer-events: none;
+}
+
+.login-shell {
+    position: relative;
+    z-index: 1;
+    width: min(1180px, 100%);
+    min-height: 680px;
+    margin: auto;
+    display: grid;
+    grid-template-columns: 1.12fr .88fr;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,.14);
+    border-radius: 28px;
+    background: rgba(6,13,22,.28);
+    box-shadow: 0 30px 90px rgba(0,0,0,.50);
+    backdrop-filter: blur(8px);
+}
+
+.login-showcase {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 58px 58px 46px;
+    color: #fff;
+    overflow: hidden;
+}
+
+.login-showcase::after {
+    content: '';
+    position: absolute;
+    inset: auto -10% -90px auto;
+    width: 280px;
+    height: 280px;
+    border-radius: 50%;
+    background: rgba(34,197,94,.12);
+    filter: blur(10px);
+}
+
+.login-brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 15px;
+    letter-spacing: 2.5px;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+.login-brand-mark {
+    width: 38px;
+    height: 38px;
+    display: grid;
+    place-items: center;
+    border-radius: 11px;
+    background: linear-gradient(135deg,#22c55e,#86efac);
+    color: #07120a;
+    font-weight: 900;
+    box-shadow: 0 8px 25px rgba(34,197,94,.28);
+}
+
+.login-brand span { color: #68f18f; }
+
+.login-showcase-copy {
+    max-width: 540px;
+    margin-top: auto;
+    margin-bottom: auto;
+    padding-top: 70px;
+}
+
+.login-kicker {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    border-radius: 999px;
+    border: 1px solid rgba(134,239,172,.28);
+    background: rgba(34,197,94,.12);
+    color: #bbf7d0;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.login-kicker-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #4ade80;
+    box-shadow: 0 0 14px #4ade80;
+}
+
+.login-showcase h1 {
+    margin: 18px 0 14px;
+    max-width: 520px;
+    font-size: clamp(42px, 5vw, 68px);
+    line-height: .98;
+    letter-spacing: -2px;
+}
+
+.login-showcase h1 span {
+    color: #4ade80;
+}
+
+.login-showcase p {
+    max-width: 500px;
+    color: rgba(255,255,255,.76);
+    font-size: 16px;
+    line-height: 1.7;
+}
+
+.login-points {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0,1fr));
+    gap: 12px;
+    margin-top: 28px;
+}
+
+.login-point {
+    padding: 14px;
+    border: 1px solid rgba(255,255,255,.10);
+    border-radius: 14px;
+    background: rgba(255,255,255,.06);
+}
+
+.login-point strong {
+    display: block;
+    color: #fff;
+    font-size: 13px;
+    margin-bottom: 4px;
+}
+
+.login-point span {
+    color: rgba(255,255,255,.58);
+    font-size: 11px;
+    line-height: 1.45;
+}
+
+.login-footer-line {
+    color: rgba(255,255,255,.46);
+    font-size: 12px;
+    letter-spacing: .8px;
+}
+
+.login-box {
+    width: auto;
+    max-width: none;
+    align-self: stretch;
+    margin: 18px;
+    padding: 42px 42px 34px;
+    border: 1px solid rgba(255,255,255,.16);
+    border-radius: 24px;
+    background: rgba(8,18,29,.88);
+    box-shadow: 0 25px 60px rgba(0,0,0,.30);
+    text-align: left;
+    backdrop-filter: blur(18px);
+}
+
+.login-card-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 28px;
+}
+
+.login-card-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: #a7f3d0;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+}
+
+.login-card-label::before {
+    content: '';
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #4ade80;
+}
+
+.login-card-mini {
+    color: #64748b;
+    font-size: 11px;
+}
+
+.login-logo {
+    font-size: 34px;
+    font-weight: 900;
+    color: #f8fafc;
+    letter-spacing: 1px;
+    margin-bottom: 7px;
+}
+
+.login-logo span { color: #4ade80; }
+
+.login-subtitle {
+    color: #94a3b8;
+    margin-bottom: 28px;
+    line-height: 1.5;
+}
+
+.login-welcome {
+    margin-bottom: 24px;
+}
+
+.login-welcome h2 {
+    color: #f8fafc;
+    font-size: 28px;
+    margin-bottom: 7px;
+}
+
+.login-welcome p {
+    color: #64748b;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.login-form { text-align: left; }
+
+.login-form label {
+    display: block;
+    margin: 14px 0 7px;
+    color: #dbe4ee;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.login-input-wrap { position: relative; }
+
+.login-form input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 13px 14px;
+    border: 1px solid rgba(148,163,184,.20);
+    border-radius: 12px;
+    outline: none;
+    background: rgba(15,30,44,.92);
+    color: #f8fafc;
+    font-size: 15px;
+    transition: border-color .2s, box-shadow .2s, background .2s;
+}
+
+.login-form input::placeholder { color: #64748b; }
+
+.login-form input:focus {
+    border-color: rgba(74,222,128,.72);
+    background: rgba(15,30,44,1);
+    box-shadow: 0 0 0 4px rgba(34,197,94,.09);
+}
+
+.password-wrap input { padding-right: 48px; }
+
+.password-toggle {
+    position: absolute;
+    right: 7px;
+    top: 50%;
+    transform: translateY(-50%);
+    border: 0;
+    background: transparent;
+    color: #94a3b8;
+    cursor: pointer;
+    font-size: 17px;
+    padding: 8px;
+}
+
+.login-meta-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    margin: 14px 0 20px;
+    font-size: 11px;
+}
+
+.login-meta-row span { color: #64748b; }
+.login-meta-row b { color: #a7f3d0; }
+
+.login-btn {
+    width: 100%;
+    margin-top: 2px;
+    padding: 14px;
+    border: none;
+    border-radius: 12px;
+    background: linear-gradient(135deg,#16a34a,#4ade80);
+    color: #041109;
+    font-size: 15px;
+    font-weight: 900;
+    letter-spacing: .3px;
+    cursor: pointer;
+    box-shadow: 0 12px 28px rgba(34,197,94,.20);
+    transition: transform .2s, box-shadow .2s;
+}
+
+.login-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 16px 32px rgba(34,197,94,.26);
+}
+
+.login-error {
+    min-height: 20px;
+    margin-top: 10px;
+    text-align: center;
+    color: #fca5a5;
+    font-size: 13px;
+}
+
+.demo-info {
+    display: block !important;
+    margin-top: 18px;
+    padding: 12px 14px;
+    border: 1px dashed rgba(134,239,172,.18);
+    border-radius: 12px;
+    text-align: center;
+    font-size: 12px;
+    color: #64748b;
+    background: rgba(255,255,255,.03);
+    line-height: 1.8;
+}
+
+.demo-info b { color: #d1fae5; }
+
+.login-demo-note {
+    margin-top: 14px;
+    text-align: center;
+    color: #475569;
+    font-size: 10px;
+    letter-spacing: .4px;
+}
+
+@media(max-width: 900px){
+    #loginPage { padding: 10px; }
+    .login-shell {
+        grid-template-columns: 1fr;
+        min-height: auto;
+    }
+    .login-showcase {
+        min-height: 360px;
+        padding: 38px 34px 26px;
+    }
+    .login-showcase-copy { padding-top: 35px; }
+    .login-box { margin: 0; border-radius: 0 0 24px 24px; }
+}
+
+@media(max-width: 520px){
+    .login-showcase { padding: 28px 22px 22px; }
+    .login-showcase h1 { font-size: 42px; }
+    .login-points { grid-template-columns: 1fr; }
+    .login-box { padding: 30px 22px 24px; }
+}
+
+/* ================= LOGIN PASSWORD TOGGLE ================= */
+/* ================= MEMBER SEARCH ================= */
+.member-tools {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+}
+
+.member-search {
+    flex: 1;
+    min-width: 220px;
+    padding: 11px 13px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+.member-filter {
+    padding: 11px 13px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    background: #fff;
+    font-size: 14px;
+}
+
+.member-result-count {
+    color: #64748b;
+    font-size: 13px;
+    white-space: nowrap;
+}
+
+
+/* ================= MEMBER STATUS & DETAILS ================= */
+.member-status { display:inline-block; padding:5px 9px; border-radius:999px; font-size:12px; font-weight:700; white-space:nowrap; }
+.member-status.active { background:#dcfce7; color:#166534; }
+.member-status.expiring { background:#fef3c7; color:#92400e; }
+.member-status.expired { background:#fee2e2; color:#991b1b; }
+.view-btn { background:#6366f1; color:white; border:none; padding:7px 10px; border-radius:5px; margin-right:4px; }
+.member-details-modal { position:fixed; inset:0; background:rgba(15,23,42,.55); display:none; align-items:center; justify-content:center; z-index:10000; padding:20px; }
+.member-details-box { width:520px; max-width:100%; background:white; border-radius:16px; padding:24px; box-shadow:0 20px 50px rgba(0,0,0,.2); }
+.member-details-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:18px; }
+.detail-item { background:#f8fafc; padding:12px; border-radius:9px; }
+.detail-item small { display:block; color:#64748b; margin-bottom:5px; }
+.detail-item strong { color:#111827; word-break:break-word; }
+.details-actions { display:flex; justify-content:flex-end; gap:8px; margin-top:20px; }
+.close-details { background:#e5e7eb; color:#111827; border:none; padding:9px 15px; border-radius:7px; }
+
+/* ================= RESPONSIVE DESIGN ================= */
+@media (max-width: 900px) {
+    .sidebar { width:190px; }
+    .main { margin-left:190px; padding:18px; }
+    .menu-btn { font-size:14px; }
+    .table-container { overflow-x:auto; }
+    table { min-width:900px; }
+}
+@media (max-width: 650px) {
+    .sidebar { position:relative; width:100%; height:auto; padding:12px; }
+    .logo { margin-bottom:10px; }
+    .menu-btn { width:auto; display:inline-block; margin:3px; padding:9px 11px; }
+    .main { margin-left:0; padding:14px; }
+    .header, .section-title { flex-direction:column; align-items:flex-start; gap:12px; }
+    .header .primary-btn, .section-title .primary-btn { width:100%; }
+    .cards { grid-template-columns:1fr 1fr; gap:10px; }
+    .card { padding:15px; }
+    .card h2 { font-size:23px; }
+    .member-search-tools { flex-direction:column; align-items:stretch; }
+    .member-search, .member-filter { width:100%; }
+    .member-details-grid { grid-template-columns:1fr; }
+}
+@media (max-width: 400px) {
+    .cards { grid-template-columns:1fr; }
+    .login-box { padding:25px 20px; }
+}
+
+/* ================= GYM STORE ================= */
+.store-toolbar{
+    display:flex;
+    gap:12px;
+    align-items:center;
+    flex-wrap:wrap;
+    margin-bottom:18px;
+}
+.store-search{
+    flex:1;
+    min-width:240px;
+    padding:12px 14px;
+    border:1px solid #d1d5db;
+    border-radius:9px;
+    font-size:14px;
+    outline:none;
+}
+.store-search:focus{border-color:#22c55e;box-shadow:0 0 0 3px rgba(34,197,94,.09);}
+.store-filter{
+    padding:12px 14px;
+    border:1px solid #d1d5db;
+    border-radius:9px;
+    background:#fff;
+    font-size:14px;
+}
+.store-summary{
+    display:grid;
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:16px;
+    margin-bottom:20px;
+}
+.store-summary-card{
+    background:#fff;
+    border:1px solid #e5e7eb;
+    border-radius:14px;
+    padding:18px;
+    box-shadow:0 3px 12px rgba(0,0,0,.06);
+}
+.store-summary-card small{display:block;color:#64748b;margin-bottom:7px;font-weight:700;}
+.store-summary-card strong{font-size:26px;color:#111827;}
+.special-store-banner{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:16px;
+    flex-wrap:wrap;
+    margin-bottom:22px;
+    padding:18px 20px;
+    border-radius:16px;
+    background:linear-gradient(135deg,#0f172a,#1e293b);
+    color:#fff;
+    border:1px solid rgba(74,222,128,.28);
+}
+.special-store-banner h3{margin:0 0 5px;font-size:20px;}
+.special-store-banner p{margin:0;color:#cbd5e1;font-size:13px;line-height:1.5;}
+.special-store-price{
+    display:inline-flex;
+    align-items:center;
+    gap:9px;
+    padding:10px 14px;
+    border-radius:999px;
+    background:#22c55e;
+    color:#052e16;
+    font-weight:800;
+    white-space:nowrap;
+}
+.store-section-title{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    margin:24px 0 14px;
+}
+.store-section-title h2{margin:0;font-size:20px;color:#111827;}
+.store-section-title span{font-size:12px;color:#64748b;}
+.store-grid{
+    display:grid;
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:18px;
+}
+.store-card{
+    background:#fff;
+    border:1px solid #e5e7eb;
+    border-radius:16px;
+    padding:18px;
+    box-shadow:0 3px 12px rgba(0,0,0,.06);
+    transition:transform .2s,box-shadow .2s;
+}
+.store-card:hover{transform:translateY(-3px);box-shadow:0 10px 25px rgba(0,0,0,.09);}
+.store-card-top{
+    display:flex;
+    justify-content:space-between;
+    gap:12px;
+    align-items:flex-start;
+}
+.store-icon{
+    width:48px;
+    height:48px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:12px;
+    background:#ecfdf5;
+    font-size:25px;
+    flex-shrink:0;
+}
+.store-badge{
+    display:inline-block;
+    padding:4px 8px;
+    border-radius:999px;
+    background:#eef2ff;
+    color:#4338ca;
+    font-size:10px;
+    font-weight:800;
+    text-transform:uppercase;
+    letter-spacing:.5px;
+}
+.store-badge.special{background:#dcfce7;color:#166534;}
+.store-card h3{margin:12px 0 5px;font-size:16px;color:#111827;}
+.store-card p{margin:0;color:#64748b;line-height:1.5;font-size:13px;min-height:39px;}
+.store-price-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:10px;
+    margin-top:15px;
+    padding-top:13px;
+    border-top:1px solid #eef2f7;
+}
+.store-price{font-size:19px;font-weight:800;color:#16a34a;}
+.store-unit{font-size:11px;color:#64748b;}
+.store-payment-strip{
+    margin-top:18px;
+    padding:12px 14px;
+    border-radius:10px;
+    background:#f8fafc;
+    color:#475569;
+    font-size:12px;
+    text-align:center;
+}
+.no-store-results{
+    grid-column:1/-1;
+    padding:35px 20px;
+    text-align:center;
+    background:#fff;
+    border:1px solid #e5e7eb;
+    border-radius:14px;
+    color:#64748b;
+}
+@media(max-width:950px){
+    .store-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
+    .store-summary{grid-template-columns:1fr 1fr;}
+}
+@media(max-width:600px){
+    .store-grid,.store-summary{grid-template-columns:1fr;}
+    .store-search{min-width:100%;}
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- ================= DEMO LOGIN ================= -->
+<div id="loginPage">
+    <div class="login-shell">
+        <div class="login-showcase">
+            <div>
+                <div class="login-brand">
+                    <div class="login-brand-mark">G</div>
+                    <div>GYM<span>PRO</span></div>
+                </div>
+            </div>
+
+            <div class="login-showcase-copy">
+                <span class="login-kicker"><span class="login-kicker-dot"></span> Smart Gym Management</span>
+                <h1>Build a stronger gym with <span>GYMPRO.</span></h1>
+                <p>Manage members, payments, trainers and daily gym operations from one professional workspace.</p>
+
+                <div class="login-points">
+                    <div class="login-point"><strong>Members</strong><span>Registration, renewals and status tracking</span></div>
+                    <div class="login-point"><strong>Payments</strong><span>Paid, pending and overdue management</span></div>
+                    <div class="login-point"><strong>Operations</strong><span>Training, nutrition and activities</span></div>
+                </div>
+            </div>
+
+            <div class="login-footer-line">STRONGER • HEALTHIER • BETTER</div>
+        </div>
+
+        <div class="login-box">
+            <div class="login-card-top">
+                <span class="login-card-label">Admin Portal</span>
+                <span class="login-card-mini">Demo Access</span>
+            </div>
+
+            <div class="login-welcome">
+                <div class="login-logo">GYM<span>PRO</span></div>
+                <div class="login-subtitle">Gym Management System</div>
+                <h2>Welcome back.</h2>
+                <p>Sign in to continue managing your gym.</p>
+            </div>
+
+            <form class="login-form" onsubmit="demoLogin(event)">
+                <label for="loginUsername">Username</label>
+                <div class="login-input-wrap">
+                    <input type="text" id="loginUsername" placeholder="Enter username" autocomplete="username" required>
+                </div>
+
+                <label for="loginPassword">Password</label>
+                <div class="password-wrap">
+                    <input type="password" id="loginPassword" placeholder="Enter password" autocomplete="current-password" required>
+                    <button type="button" class="password-toggle" onclick="togglePassword()" aria-label="Show or hide password">👁️</button>
+                </div>
+
+               
+
+                
+
+                <button class="login-btn" type="submit">Login to GYMPRO</button>
+                <div id="loginError" class="login-error"></div>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+
+<!-- ================= MEMBER DETAILS POPUP ================= -->
+<div id="memberDetailsModal" class="member-details-modal" onclick="closeMemberDetails(event)">
+    <div class="member-details-box" onclick="event.stopPropagation()">
+        <div class="modal-header">
+            <h2>Member Details</h2>
+            <span class="close" onclick="closeMemberDetails()">×</span>
+        </div>
+        <div id="memberDetailsContent"></div>
+        <div class="details-actions">
+            <button class="close-details" onclick="closeMemberDetails()">Close</button>
+        </div>
+    </div>
+</div>
+
+<!-- =====================================================
+SIDEBAR
+===================================================== -->
+
+<div class="sidebar">
+
+    <div class="logo">
+        GYM<span>PRO</span>
+    </div>
+
+    
+    
+<button class="menu-btn active"
+            onclick="showSection('dashboard', this)">
+        🏠 Dashboard
+    </button>
+
+    <button class="menu-btn"
+            onclick="showSection('members', this)">
+        👥 Members
+    </button>
+
+    <button class="menu-btn"
+            onclick="showSection('trainers', this)">
+        🏋️ Trainers
+    </button>
+
+    <button class="menu-btn"
+            onclick="showSection('plans', this)">
+        📋 Plans
+    </button>
+
+    <button class="menu-btn"
+            onclick="showSection('payments', this)">
+        💳 Payments
+    </button>
+
+    <button class="menu-btn"
+            onclick="showSection('alerts', this)">
+        🔔 Expiry Alerts
+    </button>
+
+    <button class="menu-btn"
+            onclick="showSection('timings', this)">
+        🕒 Gym Timings
+    </button>
+
+    <button class="menu-btn"
+            onclick="showSection('workouts', this)">
+        🏋️ Workout Plans
+    </button>
+
+    <button class="menu-btn"
+            onclick="showSection('diet', this)">
+        🥗 Diet & Nutrition
+    </button>
+
+    <button class="menu-btn"
+            onclick="showSection('store', this)">
+        🛍️ Gym Store
+    </button>
+
+    <button class="menu-btn"
+            onclick="showSection('activities', this)">
+        📊 Activities
+    </button>
+
+<button class="menu-btn logout-btn" onclick="logoutDemo()">
+    🚪 Logout
+</button>
+
+</div>
+
+
+<!-- =====================================================
+MAIN
+===================================================== -->
+
+<div class="main">
+
+
+<!-- =====================================================
+DASHBOARD
+===================================================== -->
+
+<section id="dashboard" class="section active">
+
+    <div class="header">
+        <div>
+            <h1>Dashboard</h1>
+            <p>Welcome to GYMPRO Management System</p>
+        </div>
+
+        <button class="primary-btn"
+                onclick="openMemberModal()">
+            + Add Member
+        </button>
+    </div>
+
+
+    <div class="cards">
+
+        <div class="card">
+            <h3>Total Members</h3>
+            <h2 id="totalMembers">0</h2>
+        </div>
+
+        <div class="card">
+            <h3>Paid Members</h3>
+            <h2 id="paidMembers">0</h2>
+        </div>
+
+        <div class="card">
+            <h3>Pending</h3>
+            <h2 id="pendingMembers">0</h2>
+        </div>
+
+        <div class="card">
+            <h3>Overdue</h3>
+            <h2 id="overdueMembers">0</h2>
+        </div>
+
+        <div class="card">
+            <h3>Paid Revenue</h3>
+            <h2 id="revenue">₹0</h2>
+        </div>
+
+    </div>
+
+
+    <div class="table-container">
+
+        <h2 style="margin-bottom:15px;">
+            Recent Members
+        </h2>
+
+        <table>
+
+            <thead>
+
+                <tr>
+                    <th>Name</th>
+                    <th>Phone</th>
+                    <th>Plan</th>
+                    <th>Expiry</th>
+                    <th>Amount</th>
+                    <th>Status</th>
+                </tr>
+
+            </thead>
+
+            <tbody id="dashboardMembers">
+            </tbody>
+
+        </table>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+MEMBERS
+===================================================== -->
+
+<section id="members" class="section">
+
+    <div class="section-title">
+
+        <div>
+            <h1>Members</h1>
+            <p>Manage gym members</p>
+        </div>
+
+        <button class="primary-btn"
+                onclick="openMemberModal()">
+            + Add Member
+        </button>
+
+    </div>
+
+
+    <div class="table-container">
+
+        <div class="member-tools">
+            <input
+                id="memberSearch"
+                class="member-search"
+                type="search"
+                placeholder="🔎 Search by name, phone, email or plan..."
+                oninput="filterMembers()">
+
+            <select id="memberFilter" class="member-filter" onchange="filterMembers()">
+                <option value="All">All Payments</option>
+                <option value="Paid">Paid</option>
+                <option value="Pending">Pending</option>
+                <option value="Overdue">Overdue</option>
+            </select>
+
+            <span id="memberResultCount" class="member-result-count"></span>
+        </div>
+
+        <table>
+
+            <thead>
+
+                <tr>
+                    <th>Name</th>
+                    <th>Phone</th>
+                    <th>Email</th>
+                    <th>Plan</th>
+                    <th>Start</th>
+                    <th>Expiry</th>
+                    <th>Amount</th>
+                    <th>Payment</th>
+                    <th>Membership Status</th>
+                    <th>Actions</th>
+                </tr>
+
+            </thead>
+
+            <tbody id="membersTable">
+            </tbody>
+
+        </table>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+TRAINERS
+===================================================== -->
+
+<section id="trainers" class="section">
+
+    <div class="section-title">
+
+        <div>
+            <h1>Trainer Management</h1>
+            <p>Manage gym trainers</p>
+        </div>
+
+        <button class="primary-btn"
+                onclick="openTrainerModal()">
+            + Add Trainer
+        </button>
+
+    </div>
+
+
+    <div class="cards">
+
+        <div class="card">
+
+            <h3>Total Trainers</h3>
+
+            <h2 id="totalTrainers">
+                0
+            </h2>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>Active Trainers</h3>
+
+            <h2 id="trainerActiveCount">
+                0
+            </h2>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>Inactive Trainers</h3>
+
+            <h2 id="trainerInactiveCount">
+                0
+            </h2>
+
+        </div>
+
+    </div>
+
+
+    <div class="table-container">
+
+        <table>
+
+            <thead>
+
+                <tr>
+                    <th>Name</th>
+                    <th>Phone</th>
+                    <th>Email</th>
+                    <th>Specialization</th>
+                    <th>Salary</th>
+                    <th>Joining Date</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+
+            </thead>
+
+            <tbody id="trainersTable">
+            </tbody>
+
+        </table>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+PLANS
+===================================================== -->
+
+<section id="plans" class="section">
+
+    <div class="section-title">
+        <div>
+            <h1>Membership Plans</h1>
+            <p>Available gym membership plans</p>
+        </div>
+    </div>
+
+
+    <div class="info-grid">
+
+        <div class="info-card">
+            <h3>Monthly</h3>
+            <h2>₹1,200</h2>
+            <p>30 days membership</p>
+        </div>
+
+        <div class="info-card">
+            <h3>Quarterly</h3>
+            <h2>₹3,000</h2>
+            <p>90 days membership</p>
+        </div>
+
+        <div class="info-card">
+            <h3>Half-Yearly</h3>
+            <h2>₹5,500</h2>
+            <p>180 days membership</p>
+        </div>
+
+        <div class="info-card">
+            <h3>Yearly</h3>
+            <h2>₹10,000</h2>
+            <p>365 days membership</p>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+PAYMENTS
+===================================================== -->
+
+<section id="payments" class="section">
+
+    <div class="section-title">
+
+        <div>
+            <h1>Payments</h1>
+            <p>Member payment information</p>
+        </div>
+
+    </div>
+
+
+    <div class="table-container">
+
+        <table>
+
+            <thead>
+
+                <tr>
+                    <th>Name</th>
+                    <th>Plan</th>
+                    <th>Amount</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+
+            </thead>
+
+            <tbody id="paymentsTable">
+            </tbody>
+
+        </table>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+EXPIRY ALERTS
+===================================================== -->
+
+<section id="alerts" class="section">
+
+    <div class="section-title">
+
+        <div>
+            <h1>Expiry Alerts</h1>
+            <p>Memberships expiring soon</p>
+        </div>
+
+    </div>
+
+    <div id="alertsContainer">
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+GYM TIMINGS
+===================================================== -->
+
+<section id="timings" class="section">
+
+    <div class="section-title">
+
+        <div>
+            <h1>Gym Timings</h1>
+            <p>Gym operating hours</p>
+        </div>
+
+    </div>
+
+
+    <div class="info-grid">
+
+        <div class="info-card">
+            <h3>Monday - Friday</h3>
+            <p>Morning: 5:30 AM - 11:00 AM</p>
+            <p>Evening: 4:00 PM - 10:00 PM</p>
+        </div>
+
+        <div class="info-card">
+            <h3>Saturday</h3>
+            <p>Morning: 6:00 AM - 11:00 AM</p>
+            <p>Evening: 4:00 PM - 9:00 PM</p>
+        </div>
+
+        <div class="info-card">
+            <h3>Sunday</h3>
+            <p>Morning: 7:00 AM - 11:00 AM</p>
+            <p>Evening: 4:00 PM - 8:00 PM</p>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+WORKOUT PLANS
+===================================================== -->
+<section id="workouts" class="section">
+    <div class="section-title">
+        <div><h1>Workout Plans</h1><p>Day-to-day workout schedule and exercise guidance</p></div>
+    </div>
+
+    <div class="plan-toolbar">
+        <select id="workoutGoal" class="plan-select" onchange="renderWorkoutPlan()">
+            <option value="general">General Fitness</option>
+            <option value="beginner">Beginner Plan</option>
+            <option value="strength">Strength Focus</option>
+            <option value="fitness">Fitness & Conditioning</option>
+        </select>
+    </div>
+
+    <div id="workoutPlanContainer"></div>
+</section>
+
+<!-- =====================================================
+DIET & NUTRITION
+===================================================== -->
+<section id="diet" class="section">
+    <div class="section-title">
+        <div><h1>Diet & Nutrition</h1><p>Day-to-day meal planning plus food stock and sales management</p></div>
+    </div>
+
+    <div class="plan-toolbar">
+        <select id="nutritionGoal" class="plan-select" onchange="renderNutritionPlan()">
+            <option value="balanced">Balanced Nutrition</option>
+            <option value="highprotein">Higher-Protein Option</option>
+            <option value="vegetarian">Vegetarian Option</option>
+        </select>
+    </div>
+
+    <h2 style="margin:10px 0 14px;">7-Day Nutrition Plan</h2>
+    <div id="nutritionPlanContainer"></div>
+
+    <div style="margin-top:30px;">
+        <div class="section-title">
+            <div><h2>Food / Supplement Store Inventory</h2><p>Track item type, cost, selling price, stock and availability.</p></div>
+            <button class="primary-btn" onclick="openFoodModal()">+ Add Food Item</button>
+        </div>
+
+        <div class="inventory-summary">
+            <div class="mini-card"><small>Total Items</small><strong id="foodTotalItems">0</strong></div>
+            <div class="mini-card"><small>Available Items</small><strong id="foodAvailableItems">0</strong></div>
+            <div class="mini-card"><small>Low Stock</small><strong id="foodLowStock">0</strong></div>
+            <div class="mini-card"><small>Inventory Value</small><strong id="foodInventoryValue">₹0</strong></div>
+        </div>
+
+        <div class="food-table-wrap">
+            <table>
+                <thead><tr>
+                    <th>Food / Item</th><th>Type</th><th>Unit</th><th>Cost Price</th><th>Sale Price</th><th>Profit</th><th>Stock</th><th>Availability</th><th>Actions</th>
+                </tr></thead>
+                <tbody id="foodInventoryTable"></tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+<!-- FOOD ITEM MODAL -->
+<div id="foodModal" class="modal">
+    <div class="modal-box">
+        <div class="modal-header"><h2 id="foodModalTitle">Add Food Item</h2><span class="close" onclick="closeFoodModal()">&times;</span></div>
+        <form id="foodForm">
+            <input type="hidden" id="foodId">
+            <div class="form-grid">
+                <div class="form-group"><label>Food / Item Name</label><input id="foodName" required placeholder="e.g. Protein Shake"></div>
+                <div class="form-group"><label>Type</label><select id="foodType"><option>Protein</option><option>Fruit</option><option>Meal</option><option>Snack</option><option>Drink</option><option>Supplement</option><option>Other</option></select></div>
+                <div class="form-group"><label>Unit</label><input id="foodUnit" required placeholder="bottle / kg / pack"></div>
+                <div class="form-group"><label>Cost Price (₹)</label><input id="foodCost" type="number" min="0" step="0.01" required></div>
+                <div class="form-group"><label>Sale Price (₹)</label><input id="foodSale" type="number" min="0" step="0.01" required></div>
+                <div class="form-group"><label>Stock Quantity</label><input id="foodStock" type="number" min="0" required></div>
+                <div class="form-group"><label>Minimum Stock Alert</label><input id="foodMinStock" type="number" min="0" value="5" required></div>
+                <div class="form-group"><label>Availability</label><select id="foodAvailability"><option>Available</option><option>Not Available</option></select></div>
+            </div>
+            <button class="primary-btn form-submit" type="submit">Save Food Item</button>
+        </form>
+    </div>
+</div>
+
+<!-- =====================================================
+GYM STORE
+===================================================== -->
+
+<section id="store" class="section">
+
+    <div class="section-title">
+        <div>
+            <h1>Gym Store</h1>
+            <p>Gym equipment, protein powders and special fitness products</p>
+        </div>
+    </div>
+
+    <div class="special-store-banner">
+        <div>
+            <h3>⭐ GYMPRO Special Bar</h3>
+            <p>Featured protein bar in the demo store catalogue — cleanly displayed with product type, price and payment options.</p>
+        </div>
+        <span class="special-store-price">₹99 / bar</span>
+    </div>
+
+    <div class="store-toolbar">
+        <input id="storeSearch" class="store-search" type="search"
+               placeholder="🔎 Search equipment or protein products..."
+               oninput="renderGymStore()">
+        <select id="storeFilter" class="store-filter" onchange="renderGymStore()">
+            <option value="All">All Products</option>
+            <option value="Equipment">Gym Equipment</option>
+            <option value="Protein">Protein Products</option>
+        </select>
+    </div>
+
+    <div class="store-summary">
+        <div class="store-summary-card">
+            <small>Total Products</small>
+            <strong id="storeTotalProducts">0</strong>
+        </div>
+        <div class="store-summary-card">
+            <small>Equipment Items</small>
+            <strong id="storeEquipmentCount">0</strong>
+        </div>
+        <div class="store-summary-card">
+            <small>Protein Products</small>
+            <strong id="storeProteinCount">0</strong>
+        </div>
+    </div>
+
+    <div class="store-section-title">
+        <h2>Gym Equipment</h2>
+        <span>Demo catalogue prices</span>
+    </div>
+    <div id="equipmentStoreGrid" class="store-grid"></div>
+
+    <div class="store-section-title">
+        <h2>Protein & Fitness Products</h2>
+        <span>Demo catalogue prices</span>
+    </div>
+    <div id="proteinStoreGrid" class="store-grid"></div>
+
+    <div class="store-payment-strip">
+        💵 Cash &nbsp; • &nbsp; 💳 Card &nbsp; • &nbsp; 📱 UPI
+        &nbsp; | &nbsp; Prices shown are demo values for the GYMPRO project.
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+ACTIVITIES
+===================================================== -->
+
+<section id="activities" class="section">
+
+    <div class="section-title">
+
+        <div>
+            <h1>Activities</h1>
+            <p>Gym management activities</p>
+        </div>
+
+    </div>
+
+
+    <div class="info-grid">
+
+        <div class="info-card">
+            <h3>Member Registration</h3>
+            <p>Add and manage new gym members.</p>
+        </div>
+
+        <div class="info-card">
+            <h3>Membership Renewal</h3>
+            <p>Renew expired or active memberships.</p>
+        </div>
+
+        <div class="info-card">
+            <h3>Payment Tracking</h3>
+            <p>Track paid, pending and overdue payments.</p>
+        </div>
+
+        <div class="info-card">
+            <h3>Trainer Management</h3>
+            <p>Manage trainer information and status.</p>
+        </div>
+
+    </div>
+
+</section>
+
+
+</div>
+
+
+<!-- =====================================================
+ADD MEMBER MODAL
+===================================================== -->
+
+<div class="modal" id="memberModal">
+
+    <div class="modal-box">
+
+        <div class="modal-header">
+
+            <h2 id="memberModalTitle">
+                Add Member
+            </h2>
+
+            <span class="close"
+                  onclick="closeMemberModal()">
+                ×
+            </span>
+
+        </div>
+
+
+        <form id="memberForm">
+
+            <input type="hidden" id="memberId">
+
+
+            <div class="form-grid">
+
+                <div class="form-group">
+                    <label>Name *</label>
+                    <input id="memberName"
+                           required>
+                </div>
+
+
+                <div class="form-group">
+                    <label>Phone</label>
+                    <input id="memberPhone">
+                </div>
+
+
+                <div class="form-group">
+                    <label>Email</label>
+                    <input id="memberEmail"
+                           type="email">
+                </div>
+
+
+                <div class="form-group">
+                    <label>Plan *</label>
+
+                    <select id="memberPlan"
+                            required>
+
+                        <option value="">
+                            Select Plan
+                        </option>
+
+                        <option value="Monthly">
+                            Monthly
+                        </option>
+
+                        <option value="Quarterly">
+                            Quarterly
+                        </option>
+
+                        <option value="HalfYearly">
+                            Half-Yearly
+                        </option>
+
+                        <option value="Yearly">
+                            Yearly
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="form-group">
+                    <label>Start Date *</label>
+                    <input id="memberStart"
+                           type="date"
+                           required>
+                </div>
+
+
+                <div class="form-group">
+                    <label>Expiry Date *</label>
+                    <input id="memberExpiry"
+                           type="date"
+                           required>
+                </div>
+
+
+                <div class="form-group">
+                    <label>Amount *</label>
+                    <input id="memberAmount"
+                           type="number"
+                           required>
+                </div>
+
+
+                <div class="form-group">
+                    <label>Payment Status *</label>
+
+                    <select id="memberPayment"
+                            required>
+
+                        <option value="Paid">
+                            Paid
+                        </option>
+
+                        <option value="Pending">
+                            Pending
+                        </option>
+
+                        <option value="Overdue">
+                            Overdue
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+
+            <button class="primary-btn form-submit"
+                    type="submit">
+
+                Save Member
+
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+TRAINER MODAL
+===================================================== -->
+
+<div class="modal" id="trainerModal">
+
+    <div class="modal-box">
+
+        <div class="modal-header">
+
+            <h2 id="trainerModalTitle">
+                Add Trainer
+            </h2>
+
+            <span class="close"
+                  onclick="closeTrainerModal()">
+                ×
+            </span>
+
+        </div>
+
+
+        <form id="trainerForm">
+
+            <input type="hidden"
+                   id="trainerId">
+
+
+            <div class="form-grid">
+
+
+                <div class="form-group">
+
+                    <label>Trainer Name *</label>
+
+                    <input
+                        id="trainerName"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>Phone</label>
+
+                    <input
+                        id="trainerPhone"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>Email</label>
+
+                    <input
+                        id="trainerEmail"
+                        type="email"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>Specialization</label>
+
+                    <select id="trainerSpecialization">
+
+                        <option value="">
+                            Select Specialization
+                        </option>
+
+                        <option value="Strength Training">
+                            Strength Training
+                        </option>
+
+                        <option value="Fitness Training">
+                            Fitness Training
+                        </option>
+
+                        <option value="Cardio Training">
+                            Cardio Training
+                        </option>
+
+                        <option value="Yoga">
+                            Yoga
+                        </option>
+
+                        <option value="General Fitness">
+                            General Fitness
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>Salary</label>
+
+                    <input
+                        id="trainerSalary"
+                        type="number"
+                        min="0"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>Joining Date *</label>
+
+                    <input
+                        id="trainerJoining"
+                        type="date"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group full">
+
+                    <label>Status *</label>
+
+                    <select
+                        id="trainerStatus"
+                        required
+                    >
+
+                        <option value="Active">
+                            Active
+                        </option>
+
+                        <option value="Inactive">
+                            Inactive
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+
+            <button
+                class="primary-btn form-submit"
+                type="submit"
+            >
+
+                Save Trainer
+
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<script>
+
+/* ================= DEMO LOGIN ================= */
+const DEMO_USERNAME = 'babbu';
+const DEMO_PASSWORD = 'babbu123';
+
+function demoLogin(event) {
+    event.preventDefault();
+
+    const username = document.getElementById('loginUsername').value.trim();
+    const password = document.getElementById('loginPassword').value;
+    const error = document.getElementById('loginError');
+
+    if (username === DEMO_USERNAME && password === DEMO_PASSWORD) {
+        document.getElementById('loginPage').style.display = 'none';
+        error.textContent = '';
+        sessionStorage.setItem('gymproLoggedIn', 'true');
+    } else {
+        error.textContent = 'Invalid username or password.';
+    }
+}
+
+function logoutDemo() {
+    sessionStorage.removeItem('gymproLoggedIn');
+    document.getElementById('loginPage').style.display = 'flex';
+    document.getElementById('loginUsername').value = '';
+    document.getElementById('loginPassword').value = '';
+    document.getElementById('loginError').textContent = '';
+}
+
+function checkDemoLogin() {
+    if (sessionStorage.getItem('gymproLoggedIn') === 'true') {
+        document.getElementById('loginPage').style.display = 'none';
+    }
+}
+
+function togglePassword() {
+    const input = document.getElementById('loginPassword');
+    const button = document.querySelector('.password-toggle');
+
+    if (input.type === 'password') {
+        input.type = 'text';
+        button.textContent = '🙈';
+    } else {
+        input.type = 'password';
+        button.textContent = '👁️';
+    }
+}
+
+
+/* =====================================================
+GLOBAL DATA
+===================================================== */
+
+let members = [];
+let trainers = [];
+
+
+/* =====================================================
+NAVIGATION
+===================================================== */
+
+function showSection(sectionId, button) {
+
+    document
+        .querySelectorAll('.section')
+        .forEach(section => {
+
+            section.classList.remove('active');
+
+        });
+
+
+    document
+        .getElementById(sectionId)
+        .classList.add('active');
+
+
+    document
+        .querySelectorAll('.menu-btn')
+        .forEach(btn => {
+
+            btn.classList.remove('active');
+
+        });
+
+
+    if (button) {
+        button.classList.add('active');
+    }
+
+
+    if (sectionId === 'trainers') {
+        loadTrainers();
+    }
+
+    if (sectionId === 'store') renderGymStore();
+
+    if (sectionId === 'workouts') renderWorkoutPlan();
+    if (sectionId === 'diet') { renderNutritionPlan(); renderFoodInventory(); }
+
+}
+
+
+/* =====================================================
+LOAD ALL DATA
+===================================================== */
+
+async function loadAll() {
+
+    await loadMembers();
+
+    await loadTrainers();
+
+    await loadDashboard();
+
+}
+
+
+/* =====================================================
+LOAD MEMBERS
+===================================================== */
+
+async function loadMembers() {
+
+    try {
+
+        const response =
+            await fetch('/api/members');
+
+        members =
+            await response.json();
+
+        renderMembers();
+
+        renderPayments();
+
+        renderAlerts();
+
+        renderDashboardMembers();
+
+    } catch (error) {
+
+        console.error(error);
+
+    }
+
+}
+
+
+/* =====================================================
+RENDER MEMBERS
+===================================================== */
+
+function renderMembers() {
+
+    const table = document.getElementById('membersTable');
+    if (!table) return;
+
+    const search = (document.getElementById('memberSearch')?.value || '').trim().toLowerCase();
+    const paymentFilter = document.getElementById('memberFilter')?.value || 'All';
+
+    const filtered = members.filter(member => {
+        const matchesSearch = !search || [
+            member.name,
+            member.phone,
+            member.email,
+            member.plan
+        ].some(value => String(value || '').toLowerCase().includes(search));
+
+        const matchesPayment =
+            paymentFilter === 'All' ||
+            member.payment_status === paymentFilter;
+
+        return matchesSearch && matchesPayment;
+    });
+
+    table.innerHTML = '';
+
+    filtered.forEach(member => {
+
+        const row = document.createElement('tr');
+
+        row.innerHTML = `
+            <td>${escapeHTML(member.name)}</td>
+            <td>${escapeHTML(member.phone || '')}</td>
+            <td>${escapeHTML(member.email || '')}</td>
+            <td>${escapeHTML(member.plan)}</td>
+            <td>${member.start_date}</td>
+            <td>${member.expiry_date}</td>
+            <td>₹${Number(member.amount).toLocaleString()}</td>
+            <td>${statusBadge(member.payment_status)}</td>
+            <td>${membershipStatusBadge(member.expiry_date)}</td>
+            <td>
+                <button class="view-btn" onclick="viewMember(${member.id})">View</button>
+                <button class="edit-btn" onclick="editMember(${member.id})">Edit</button>
+                <button class="renew-btn" onclick="renewMember(${member.id})">Renew</button>
+                <button class="payment-btn" onclick="changePayment(${member.id}, '${member.payment_status}')">Payment</button>
+                <button class="delete-btn" onclick="deleteMember(${member.id})">Delete</button>
+            </td>
+        `;
+
+        table.appendChild(row);
+    });
+
+    if (!filtered.length) {
+        table.innerHTML = `
+            <tr>
+                <td colspan="10" style="text-align:center;padding:30px;color:#64748b;">
+                    No members found
+                </td>
+            </tr>`;
+    }
+
+    const count = document.getElementById('memberResultCount');
+    if (count) {
+        count.textContent = `${filtered.length} of ${members.length} members`;
+    }
+}
+
+function filterMembers() {
+    renderMembers();
+}
+
+
+/* =====================================================
+MEMBERSHIP STATUS
+===================================================== */
+function getMembershipStatus(expiryDate) {
+    if (!expiryDate) return { key: 'active', label: 'Active', days: null };
+    const today = new Date();
+    today.setHours(0,0,0,0);
+    const expiry = new Date(expiryDate + 'T00:00:00');
+    const days = Math.ceil((expiry - today) / 86400000);
+    if (days < 0) return { key: 'expired', label: 'Expired', days };
+    if (days <= 7) return { key: 'expiring', label: 'Expiring Soon', days };
+    return { key: 'active', label: 'Active', days };
+}
+
+function membershipStatusBadge(expiryDate) {
+    const status = getMembershipStatus(expiryDate);
+    return `<span class="member-status ${status.key}">${status.label}</span>`;
+}
+
+function viewMember(id) {
+    const member = members.find(m => m.id === id);
+    if (!member) return;
+    const status = getMembershipStatus(member.expiry_date);
+    const remaining = status.days === null ? 'Not available' : (status.days < 0 ? `${Math.abs(status.days)} day(s) ago` : `${status.days} day(s) remaining`);
+    document.getElementById('memberDetailsContent').innerHTML = `
+        <div style="font-size:20px;font-weight:700;color:#111827;margin-top:8px;">${escapeHTML(member.name)}</div>
+        <div style="margin-top:8px;">${membershipStatusBadge(member.expiry_date)}</div>
+        <div class="member-details-grid">
+            <div class="detail-item"><small>Phone</small><strong>${escapeHTML(member.phone || 'Not provided')}</strong></div>
+            <div class="detail-item"><small>Email</small><strong>${escapeHTML(member.email || 'Not provided')}</strong></div>
+            <div class="detail-item"><small>Plan</small><strong>${escapeHTML(member.plan || 'Not provided')}</strong></div>
+            <div class="detail-item"><small>Payment</small><strong>${escapeHTML(member.payment_status || 'Not provided')}</strong></div>
+            <div class="detail-item"><small>Start Date</small><strong>${escapeHTML(member.start_date || 'Not provided')}</strong></div>
+            <div class="detail-item"><small>Expiry Date</small><strong>${escapeHTML(member.expiry_date || 'Not provided')}</strong></div>
+            <div class="detail-item"><small>Amount</small><strong>₹${Number(member.amount || 0).toLocaleString()}</strong></div>
+            <div class="detail-item"><small>Membership Time</small><strong>${remaining}</strong></div>
+        </div>`;
+    document.getElementById('memberDetailsModal').style.display = 'flex';
+}
+
+function closeMemberDetails(event) {
+    if (event && event.target !== event.currentTarget) return;
+    document.getElementById('memberDetailsModal').style.display = 'none';
+}
+
+/* =====================================================
+STATUS BADGE
+===================================================== */
+
+function statusBadge(status) {
+
+    let className = '';
+
+    if (status === 'Paid') {
+        className = 'paid';
+    }
+
+    if (status === 'Pending') {
+        className = 'pending';
+    }
+
+    if (status === 'Overdue') {
+        className = 'overdue';
+    }
+
+
+    return `
+        <span class="status ${className}">
+            ${status}
+        </span>
+    `;
+}
+
+
+/* =====================================================
+DASHBOARD MEMBERS
+===================================================== */
+
+function renderDashboardMembers() {
+
+    const table =
+        document.getElementById(
+            'dashboardMembers'
+        );
+
+    table.innerHTML = '';
+
+
+    members
+        .slice(0, 5)
+        .forEach(member => {
+
+            const row =
+                document.createElement('tr');
+
+
+            row.innerHTML = `
+
+                <td>${escapeHTML(member.name)}</td>
+
+                <td>${escapeHTML(member.phone || '')}</td>
+
+                <td>${escapeHTML(member.plan)}</td>
+
+                <td>${member.expiry_date}</td>
+
+                <td>₹${Number(member.amount).toLocaleString()}</td>
+
+                <td>
+                    ${statusBadge(member.payment_status)}
+                </td>
+
+            `;
+
+
+            table.appendChild(row);
+
+        });
+
+}
+
+
+/* =====================================================
+LOAD DASHBOARD
+===================================================== */
+
+async function loadDashboard() {
+
+    try {
+
+        const response =
+            await fetch('/api/dashboard');
+
+        const data =
+            await response.json();
+
+
+        document.getElementById(
+            'totalMembers'
+        ).textContent = data.total;
+
+
+        document.getElementById(
+            'paidMembers'
+        ).textContent = data.paid;
+
+
+        document.getElementById(
+            'pendingMembers'
+        ).textContent = data.pending;
+
+
+        document.getElementById(
+            'overdueMembers'
+        ).textContent = data.overdue;
+
+
+        document.getElementById(
+            'revenue'
+        ).textContent =
+            '₹' + Number(data.revenue).toLocaleString();
+
+
+    } catch (error) {
+
+        console.error(error);
+
+    }
+
+}
+
+
+/* =====================================================
+ADD MEMBER MODAL
+===================================================== */
+
+function openMemberModal() {
+
+    document.getElementById(
+        'memberModal'
+    ).style.display = 'flex';
+
+
+    document.getElementById(
+        'memberModalTitle'
+    ).textContent = 'Add Member';
+
+
+    document.getElementById(
+        'memberForm'
+    ).reset();
+
+
+    document.getElementById(
+        'memberId'
+    ).value = '';
+
+}
+
+
+function closeMemberModal() {
+
+    document.getElementById(
+        'memberModal'
+    ).style.display = 'none';
+
+}
+
+
+/* =====================================================
+ADD / EDIT MEMBER
+===================================================== */
+
+document
+    .getElementById('memberForm')
+    .addEventListener(
+        'submit',
+        async function(event) {
+
+            event.preventDefault();
+
+
+            const id =
+                document.getElementById(
+                    'memberId'
+                ).value;
+
+
+            const data = {
+
+                name:
+                    document.getElementById(
+                        'memberName'
+                    ).value,
+
+                phone:
+                    document.getElementById(
+                        'memberPhone'
+                    ).value,
+
+                email:
+                    document.getElementById(
+                        'memberEmail'
+                    ).value,
+
+                plan:
+                    document.getElementById(
+                        'memberPlan'
+                    ).value,
+
+                start_date:
+                    document.getElementById(
+                        'memberStart'
+                    ).value,
+
+                expiry_date:
+                    document.getElementById(
+                        'memberExpiry'
+                    ).value,
+
+                amount:
+                    Number(
+                        document.getElementById(
+                            'memberAmount'
+                        ).value
+                    ),
+
+                payment_status:
+                    document.getElementById(
+                        'memberPayment'
+                    ).value
+
+            };
+
+
+            const url =
+                id
+                    ? `/api/members/${id}`
+                    : '/api/members';
+
+
+            const method =
+                id ? 'PUT' : 'POST';
+
+
+            try {
+
+                const response =
+                    await fetch(
+                        url,
+                        {
+                            method: method,
+                            headers: {
+                                'Content-Type':
+                                    'application/json'
+                            },
+                            body:
+                                JSON.stringify(data)
+                        }
+                    );
+
+
+                const result =
+                    await response.json();
+
+
+                if (!response.ok) {
+
+                    alert(
+                        result.error ||
+                        'Something went wrong'
+                    );
+
+                    return;
+
+                }
+
+
+                alert(
+                    id
+                        ? 'Member updated successfully!'
+                        : 'Member added successfully!'
+                );
+
+
+                closeMemberModal();
+
+                await checkDemoLogin();
+renderGymStore();
+
+loadAll();
+
+
+            } catch (error) {
+
+                console.error(error);
+
+                alert(
+                    'Server error. Please try again.'
+                );
+
+            }
+
+        }
+    );
+
+
+/* =====================================================
+EDIT MEMBER
+===================================================== */
+
+function editMember(id) {
+
+    const member =
+        members.find(
+            m => m.id === id
+        );
+
+
+    if (!member) return;
+
+
+    document.getElementById(
+        'memberId'
+    ).value = member.id;
+
+
+    document.getElementById(
+        'memberName'
+    ).value = member.name;
+
+
+    document.getElementById(
+        'memberPhone'
+    ).value = member.phone || '';
+
+
+    document.getElementById(
+        'memberEmail'
+    ).value = member.email || '';
+
+
+    document.getElementById(
+        'memberPlan'
+    ).value = member.plan;
+
+
+    document.getElementById(
+        'memberStart'
+    ).value = member.start_date;
+
+
+    document.getElementById(
+        'memberExpiry'
+    ).value = member.expiry_date;
+
+
+    document.getElementById(
+        'memberAmount'
+    ).value = member.amount;
+
+
+    document.getElementById(
+        'memberPayment'
+    ).value = member.payment_status;
+
+
+    document.getElementById(
+        'memberModalTitle'
+    ).textContent = 'Edit Member';
+
+
+    document.getElementById(
+        'memberModal'
+    ).style.display = 'flex';
+
+}
+
+
+/* =====================================================
+DELETE MEMBER
+===================================================== */
+
+async function deleteMember(id) {
+
+    const member =
+        members.find(
+            m => m.id === id
+        );
+
+
+    if (!member) return;
+
+
+    const confirmDelete =
+        confirm(
+            `Delete member "${member.name}"?`
+        );
+
+
+    if (!confirmDelete) return;
+
+
+    try {
+
+        const response =
+            await fetch(
+                `/api/members/${id}`,
+                {
+                    method: 'DELETE'
+                }
+            );
+
+
+        const result =
+            await response.json();
+
+
+        if (!response.ok) {
+
+            alert(
+                result.error ||
+                'Unable to delete member'
+            );
+
+            return;
+
+        }
+
+
+        alert(
+            'Member deleted successfully!'
+        );
+
+
+        await loadAll();
+
+
+    } catch (error) {
+
+        console.error(error);
+
+        alert(
+            'Server error'
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+RENEW MEMBER
+===================================================== */
+
+async function renewMember(id) {
+
+    try {
+
+        const response =
+            await fetch(
+                `/api/members/${id}/renew`,
+                {
+                    method: 'POST'
+                }
+            );
+
+
+        const result =
+            await response.json();
+
+
+        if (!response.ok) {
+
+            alert(
+                result.error ||
+                'Renewal failed'
+            );
+
+            return;
+
+        }
+
+
+        alert(
+            `Membership renewed until ${result.expiry_date}`
+        );
+
+
+        await loadAll();
+
+
+    } catch (error) {
+
+        console.error(error);
+
+        alert(
+            'Server error'
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+PAYMENT
+===================================================== */
+
+async function changePayment(id, currentStatus) {
+
+    let newStatus;
+
+
+    if (currentStatus === 'Paid') {
+
+        newStatus = 'Pending';
+
+    } else if (
+        currentStatus === 'Pending'
+    ) {
+
+        newStatus = 'Paid';
+
+    } else {
+
+        newStatus = 'Paid';
+
+    }
+
+
+    try {
+
+        const response =
+            await fetch(
+                `/api/members/${id}/payment`,
+                {
+                    method: 'PUT',
+
+                    headers: {
+                        'Content-Type':
+                            'application/json'
+                    },
+
+                    body:
+                        JSON.stringify({
+                            payment_status:
+                                newStatus
+                        })
+                }
+            );
+
+
+        if (!response.ok) {
+
+            const result =
+                await response.json();
+
+            alert(
+                result.error ||
+                'Payment update failed'
+            );
+
+            return;
+
+        }
+
+
+        await loadAll();
+
+
+    } catch (error) {
+
+        console.error(error);
+
+    }
+
+}
+
+
+/* =====================================================
+PAYMENTS TABLE
+===================================================== */
+
+function renderPayments() {
+
+    const table =
+        document.getElementById(
+            'paymentsTable'
+        );
+
+    table.innerHTML = '';
+
+
+    members.forEach(member => {
+
+        const row =
+            document.createElement('tr');
+
+
+        row.innerHTML = `
+
+            <td>${escapeHTML(member.name)}</td>
+
+            <td>${escapeHTML(member.plan)}</td>
+
+            <td>₹${Number(member.amount).toLocaleString()}</td>
+
+            <td>
+                ${statusBadge(member.payment_status)}
+            </td>
+
+            <td>
+
+                <button
+                    class="payment-btn"
+                    onclick="changePayment(${member.id}, '${member.payment_status}')">
+
+                    Change Status
+
+                </button>
+
+            </td>
+
+        `;
+
+
+        table.appendChild(row);
+
+    });
+
+}
+
+
+/* =====================================================
+EXPIRY ALERTS
+===================================================== */
+
+function renderAlerts() {
+
+    const container =
+        document.getElementById(
+            'alertsContainer'
+        );
+
+    container.innerHTML = '';
+
+
+    const today =
+        new Date();
+
+
+    const expiring =
+        members.filter(member => {
+
+            const expiry =
+                new Date(
+                    member.expiry_date
+                );
+
+            const difference =
+                Math.ceil(
+                    (
+                        expiry - today
+                    ) /
+                    (1000 * 60 * 60 * 24)
+                );
+
+
+            return (
+                difference >= 0 &&
+                difference <= 7
+            );
+
+        });
+
+
+    if (expiring.length === 0) {
+
+        container.innerHTML = `
+            <div class="no-alert">
+                No memberships are expiring within 7 days.
+            </div>
+        `;
+
+        return;
+
+    }
+
+
+    expiring.forEach(member => {
+
+        const div =
+            document.createElement('div');
+
+        div.className = 'alert';
+
+
+        div.innerHTML = `
+            <strong>
+                ${escapeHTML(member.name)}
+            </strong>
+
+            membership expires on
+
+            <strong>
+                ${member.expiry_date}
+            </strong>.
+        `;
+
+
+        container.appendChild(div);
+
+    });
+
+}
+
+
+/* =====================================================
+TRAINER FUNCTIONS
+===================================================== */
+
+/* LOAD TRAINERS */
+
+async function loadTrainers() {
+
+    try {
+
+        const response =
+            await fetch('/api/trainers');
+
+
+        trainers =
+            await response.json();
+
+
+        renderTrainers();
+
+        updateTrainerCounts();
+
+
+    } catch (error) {
+
+        console.error(error);
+
+    }
+
+}
+
+
+/* RENDER TRAINERS */
+
+function renderTrainers() {
+
+    const table =
+        document.getElementById(
+            'trainersTable'
+        );
+
+
+    table.innerHTML = '';
+
+
+    trainers.forEach(trainer => {
+
+        const row =
+            document.createElement('tr');
+
+
+        const statusClass =
+            trainer.status === 'Active'
+                ? 'active-status'
+                : 'inactive-status';
+
+
+        row.innerHTML = `
+
+            <td>
+                ${escapeHTML(trainer.name)}
+            </td>
+
+            <td>
+                ${escapeHTML(trainer.phone || '')}
+            </td>
+
+            <td>
+                ${escapeHTML(trainer.email || '')}
+            </td>
+
+            <td>
+                ${escapeHTML(
+                    trainer.specialization || ''
+                )}
+            </td>
+
+            <td>
+                ₹${Number(
+                    trainer.salary || 0
+                ).toLocaleString()}
+            </td>
+
+            <td>
+                ${trainer.joining_date}
+            </td>
+
+            <td>
+
+                <span
+                    class="status ${statusClass}">
+                    ${trainer.status}
+                </span>
+
+            </td>
+
+            <td>
+
+                <button
+                    class="edit-btn"
+                    onclick="editTrainer(${trainer.id})">
+                    Edit
+                </button>
+
+                <button
+                    class="payment-btn"
+                    onclick="toggleTrainerStatus(${trainer.id}, '${trainer.status}')">
+                    Status
+                </button>
+
+                <button
+                    class="delete-btn"
+                    onclick="deleteTrainer(${trainer.id})">
+                    Delete
+                </button>
+
+            </td>
+
+        `;
+
+
+        table.appendChild(row);
+
+    });
+
+}
+
+
+/* TRAINER COUNTS */
+
+function updateTrainerCounts() {
+
+    const total =
+        trainers.length;
+
+
+    const active =
+        trainers.filter(
+            trainer =>
+                trainer.status === 'Active'
+        ).length;
+
+
+    const inactive =
+        trainers.filter(
+            trainer =>
+                trainer.status === 'Inactive'
+        ).length;
+
+
+    document.getElementById(
+        'totalTrainers'
+    ).textContent = total;
+
+
+    document.getElementById(
+        'trainerActiveCount'
+    ).textContent = active;
+
+
+    document.getElementById(
+        'trainerInactiveCount'
+    ).textContent = inactive;
+
+
+    document.getElementById(
+        'activeTrainers'
+    ).textContent = active;
+
+}
+
+
+/* OPEN TRAINER MODAL */
+
+function openTrainerModal() {
+
+    document.getElementById(
+        'trainerModal'
+    ).style.display = 'flex';
+
+
+    document.getElementById(
+        'trainerModalTitle'
+    ).textContent =
+        'Add Trainer';
+
+
+    document.getElementById(
+        'trainerForm'
+    ).reset();
+
+
+    document.getElementById(
+        'trainerId'
+    ).value = '';
+
+
+    document.getElementById(
+        'trainerStatus'
+    ).value = 'Active';
+
+}
+
+
+/* CLOSE TRAINER MODAL */
+
+function closeTrainerModal() {
+
+    document.getElementById(
+        'trainerModal'
+    ).style.display = 'none';
+
+}
+
+
+/* ADD / EDIT TRAINER */
+
+document
+    .getElementById('trainerForm')
+    .addEventListener(
+        'submit',
+        async function(event) {
+
+            event.preventDefault();
+
+
+            const id =
+                document.getElementById(
+                    'trainerId'
+                ).value;
+
+
+            const data = {
+
+                name:
+                    document.getElementById(
+                        'trainerName'
+                    ).value,
+
+                phone:
+                    document.getElementById(
+                        'trainerPhone'
+                    ).value,
+
+                email:
+                    document.getElementById(
+                        'trainerEmail'
+                    ).value,
+
+                specialization:
+                    document.getElementById(
+                        'trainerSpecialization'
+                    ).value,
+
+                salary:
+                    Number(
+                        document.getElementById(
+                            'trainerSalary'
+                        ).value || 0
+                    ),
+
+                joining_date:
+                    document.getElementById(
+                        'trainerJoining'
+                    ).value,
+
+                status:
+                    document.getElementById(
+                        'trainerStatus'
+                    ).value
+
+            };
+
+
+            const url =
+                id
+                    ? `/api/trainers/${id}`
+                    : '/api/trainers';
+
+
+            const method =
+                id ? 'PUT' : 'POST';
+
+
+            try {
+
+                const response =
+                    await fetch(
+                        url,
+                        {
+                            method: method,
+
+                            headers: {
+                                'Content-Type':
+                                    'application/json'
+                            },
+
+                            body:
+                                JSON.stringify(data)
+                        }
+                    );
+
+
+                const result =
+                    await response.json();
+
+
+                if (!response.ok) {
+
+                    alert(
+                        result.error ||
+                        'Something went wrong'
+                    );
+
+                    return;
+
+                }
+
+
+                alert(
+                    id
+                        ? 'Trainer updated successfully!'
+                        : 'Trainer added successfully!'
+                );
+
+
+                closeTrainerModal();
+
+
+                await loadTrainers();
+
+                await loadDashboard();
+
+
+            } catch (error) {
+
+                console.error(error);
+
+                alert(
+                    'Server error. Please try again.'
+                );
+
+            }
+
+        }
+    );
+
+
+/* EDIT TRAINER */
+
+function editTrainer(id) {
+
+    const trainer =
+        trainers.find(
+            t => t.id === id
+        );
+
+
+    if (!trainer) return;
+
+
+    document.getElementById(
+        'trainerId'
+    ).value =
+        trainer.id;
+
+
+    document.getElementById(
+        'trainerName'
+    ).value =
+        trainer.name;
+
+
+    document.getElementById(
+        'trainerPhone'
+    ).value =
+        trainer.phone || '';
+
+
+    document.getElementById(
+        'trainerEmail'
+    ).value =
+        trainer.email || '';
+
+
+    document.getElementById(
+        'trainerSpecialization'
+    ).value =
+        trainer.specialization || '';
+
+
+    document.getElementById(
+        'trainerSalary'
+    ).value =
+        trainer.salary || 0;
+
+
+    document.getElementById(
+        'trainerJoining'
+    ).value =
+        trainer.joining_date;
+
+
+    document.getElementById(
+        'trainerStatus'
+    ).value =
+        trainer.status;
+
+
+    document.getElementById(
+        'trainerModalTitle'
+    ).textContent =
+        'Edit Trainer';
+
+
+    document.getElementById(
+        'trainerModal'
+    ).style.display =
+        'flex';
+
+}
+
+
+/* DELETE TRAINER */
+
+async function deleteTrainer(id) {
+
+    const trainer =
+        trainers.find(
+            t => t.id === id
+        );
+
+
+    if (!trainer) return;
+
+
+    const confirmDelete =
+        confirm(
+            `Delete trainer "${trainer.name}"?`
+        );
+
+
+    if (!confirmDelete) return;
+
+
+    try {
+
+        const response =
+            await fetch(
+                `/api/trainers/${id}`,
+                {
+                    method: 'DELETE'
+                }
+            );
+
+
+        const result =
+            await response.json();
+
+
+        if (!response.ok) {
+
+            alert(
+                result.error ||
+                'Unable to delete trainer'
+            );
+
+            return;
+
+        }
+
+
+        alert(
+            'Trainer deleted successfully!'
+        );
+
+
+        await loadTrainers();
+
+        await loadDashboard();
+
+
+    } catch (error) {
+
+        console.error(error);
+
+        alert(
+            'Server error'
+        );
+
+    }
+
+}
+
+
+/* CHANGE TRAINER STATUS */
+
+async function toggleTrainerStatus(
+    id,
+    currentStatus
+) {
+
+    const newStatus =
+        currentStatus === 'Active'
+            ? 'Inactive'
+            : 'Active';
+
+
+    try {
+
+        const response =
+            await fetch(
+                `/api/trainers/${id}/status`,
+                {
+                    method: 'PUT',
+
+                    headers: {
+                        'Content-Type':
+                            'application/json'
+                    },
+
+                    body:
+                        JSON.stringify({
+                            status:
+                                newStatus
+                        })
+                }
+            );
+
+
+        const result =
+            await response.json();
+
+
+        if (!response.ok) {
+
+            alert(
+                result.error ||
+                'Status update failed'
+            );
+
+            return;
+
+        }
+
+
+        await loadTrainers();
+
+        await loadDashboard();
+
+
+    } catch (error) {
+
+        console.error(error);
+
+    }
+
+}
+
+
+/* =====================================================
+GYM STORE
+===================================================== */
+const gymStoreProducts = [
+    {name:'Olympic Barbell', type:'Equipment', icon:'🏋️', price:8500, unit:'1 bar', desc:'Standard strength-training bar for gym workouts.', badge:'Strength'},
+    {name:'Adjustable Dumbbell Set', type:'Equipment', icon:'🏋️', price:6999, unit:'1 set', desc:'Space-saving adjustable dumbbells for home or gym use.', badge:'Free Weights'},
+    {name:'Commercial Treadmill', type:'Equipment', icon:'🏃', price:54999, unit:'1 unit', desc:'Cardio machine for walking and running sessions.', badge:'Cardio'},
+    {name:'Workout Bench', type:'Equipment', icon:'💪', price:9500, unit:'1 bench', desc:'Flat and adjustable bench for strength exercises.', badge:'Strength'},
+    {name:'Cable Crossover Machine', type:'Equipment', icon:'⚙️', price:85000, unit:'1 machine', desc:'Multi-purpose cable station for gym training zones.', badge:'Functional'},
+    {name:'Kettlebell Set', type:'Equipment', icon:'🔩', price:7500, unit:'1 set', desc:'Multiple-weight kettlebell set for conditioning workouts.', badge:'Conditioning'},
+    {name:'Whey Protein 1 kg', type:'Protein', icon:'🥤', price:2999, unit:'1 pack', desc:'Demo store listing for whey protein powder.', badge:'Protein'},
+    {name:'Whey Isolate 1 kg', type:'Protein', icon:'🥛', price:4299, unit:'1 pack', desc:'Demo store listing for whey isolate powder.', badge:'Premium'},
+    {name:'Mass Gainer 3 kg', type:'Protein', icon:'🧃', price:4499, unit:'1 pack', desc:'Demo store listing for a mass-gainer product.', badge:'Gainer'},
+    {name:'Plant Protein 1 kg', type:'Protein', icon:'🌱', price:3299, unit:'1 pack', desc:'Demo store listing for plant-based protein powder.', badge:'Plant'},
+    {name:'Protein Bar Box', type:'Protein', icon:'🍫', price:1299, unit:'12 bars', desc:'Convenient snack product shown for the gym store catalogue.', badge:'Snack'},
+    {name:'GYMPRO Special Bar', type:'Protein', icon:'⭐', price:99, unit:'1 bar', desc:'Featured protein bar highlighted as the GYMPRO special product.', badge:'Special', special:true}
+];
+
+function formatStorePrice(value){
+    return '₹' + Number(value || 0).toLocaleString('en-IN');
+}
+
+function storeCard(product){
+    return `<div class="store-card">
+        <div class="store-card-top">
+            <div class="store-icon">${product.icon}</div>
+            <span class="store-badge ${product.special ? 'special' : ''}">${escapeHTML(product.badge)}</span>
+        </div>
+        <h3>${escapeHTML(product.name)}</h3>
+        <p>${escapeHTML(product.desc)}</p>
+        <div class="store-price-row">
+            <div class="store-price">${formatStorePrice(product.price)}</div>
+            <div class="store-unit">${escapeHTML(product.unit)}</div>
+        </div>
+    </div>`;
+}
+
+function renderGymStore(){
+    const search = (document.getElementById('storeSearch')?.value || '').trim().toLowerCase();
+    const filter = document.getElementById('storeFilter')?.value || 'All';
+
+    const filtered = gymStoreProducts.filter(product => {
+        const text = `${product.name} ${product.type} ${product.badge} ${product.desc}`.toLowerCase();
+        const matchesSearch = !search || text.includes(search);
+        const matchesFilter = filter === 'All' || product.type === filter;
+        return matchesSearch && matchesFilter;
+    });
+
+    const equipment = filtered.filter(p => p.type === 'Equipment');
+    const protein = filtered.filter(p => p.type === 'Protein');
+
+    document.getElementById('storeTotalProducts').textContent = gymStoreProducts.length;
+    document.getElementById('storeEquipmentCount').textContent = gymStoreProducts.filter(p => p.type === 'Equipment').length;
+    document.getElementById('storeProteinCount').textContent = gymStoreProducts.filter(p => p.type === 'Protein').length;
+
+    const equipmentBox = document.getElementById('equipmentStoreGrid');
+    const proteinBox = document.getElementById('proteinStoreGrid');
+    if (!equipmentBox || !proteinBox) return;
+
+    equipmentBox.innerHTML = equipment.length
+        ? equipment.map(storeCard).join('')
+        : '<div class="no-store-results">No gym equipment found.</div>';
+
+    proteinBox.innerHTML = protein.length
+        ? protein.map(storeCard).join('')
+        : '<div class="no-store-results">No protein products found.</div>';
+}
+
+/* =====================================================
+WORKOUT PLANS
+===================================================== */
+const workoutPlans = {
+    general: [
+        ['Monday','Upper Body','Warm-up 5-10 min; Push-ups 3×10; Dumbbell/Resistance Row 3×10; Shoulder Press 3×10; Biceps Curl 3×12; Triceps Extension 3×12; Cool-down.'],
+        ['Tuesday','Lower Body','Warm-up; Bodyweight Squats 3×12; Lunges 3×10 each leg; Glute Bridge 3×12; Calf Raises 3×15; Light stretching.'],
+        ['Wednesday','Recovery & Mobility','20-30 min easy walking; shoulder, hip and ankle mobility; gentle stretching; recovery day.'],
+        ['Thursday','Upper Body + Core','Warm-up; Incline Push-ups 3×10; Row 3×10; Lateral Raise 3×12; Plank 3×20-30 sec; Dead Bug 3×10.'],
+        ['Friday','Lower Body + Core','Warm-up; Squats 3×12; Step-ups 3×10 each leg; Hip Hinge 3×10; Calf Raises 3×15; Plank 3×20-30 sec.'],
+        ['Saturday','Full Body Fitness','Warm-up; Squats 3×10; Push-ups 3×10; Rows 3×10; Marching/Light cardio 15-20 min; Cool-down.'],
+        ['Sunday','Rest Day','Rest, normal light movement and recovery. No hard training required.']
+    ],
+    beginner: [
+        ['Monday','Full Body A','Warm-up 5 min; Squats 2×10; Wall/Incline Push-ups 2×8; Row 2×10; Glute Bridge 2×10; Stretch.'],
+        ['Tuesday','Light Cardio','Easy walk 20-30 min; mobility 10 min; hydration and recovery.'],
+        ['Wednesday','Full Body B','Warm-up; Step-ups 2×8 each leg; Incline Push-ups 2×8; Row 2×10; Calf Raises 2×12; Stretch.'],
+        ['Thursday','Recovery','Easy walking and gentle stretching; focus on rest.'],
+        ['Friday','Full Body A','Repeat Monday with comfortable effort and good technique.'],
+        ['Saturday','Fun Fitness','Walking, cycling or another comfortable activity for 20-30 min.'],
+        ['Sunday','Rest','Full recovery day.']
+    ],
+    strength: [
+        ['Monday','Upper Strength','Warm-up; Push movement 3×8-10; Row 3×8-10; Shoulder Press 3×8-10; Arms 2×10-12.'],
+        ['Tuesday','Lower Strength','Warm-up; Squat pattern 3×8-10; Hip hinge 3×8-10; Lunges 2×10; Calf Raises 3×12.'],
+        ['Wednesday','Recovery','Light walking and mobility; no hard strength session.'],
+        ['Thursday','Upper Strength','Push movement 3×8-10; Row 3×8-10; Shoulder movement 3×10; Core 3 sets.'],
+        ['Friday','Lower Strength','Squat pattern 3×8-10; Step-ups 3×10; Hip bridge 3×12; Calf Raises 3×12.'],
+        ['Saturday','Conditioning','Light-to-moderate cardio 20-30 min plus mobility.'],
+        ['Sunday','Rest','Recovery and preparation for next week.']
+    ],
+    fitness: [
+        ['Monday','Cardio + Upper','Warm-up; brisk walk/cycle 20 min; Push-ups 3×10; Rows 3×10; stretching.'],
+        ['Tuesday','Lower + Cardio','Squats 3×12; Lunges 3×10; Glute Bridge 3×12; brisk walk 15 min.'],
+        ['Wednesday','Mobility','Mobility 15-20 min and easy walk.'],
+        ['Thursday','Cardio + Core','Brisk walk/cycle 20 min; Plank 3 sets; Dead Bug 3×10; stretching.'],
+        ['Friday','Full Body','Squats 3×10; Push-ups 3×10; Rows 3×10; light cardio 15 min.'],
+        ['Saturday','Outdoor Activity','Walking, cycling or another enjoyable moderate activity 30 min.'],
+        ['Sunday','Rest','Recovery day.']
+    ]
+};
+
+function renderWorkoutPlan(){
+    const goal=document.getElementById('workoutGoal')?.value||'general';
+    const box=document.getElementById('workoutPlanContainer'); if(!box)return;
+    box.innerHTML=workoutPlans[goal].map((d,i)=>`<div class="day-card"><h3>${d[0]} — ${d[1]}</h3><span class="tag">Step ${i+1}</span><p>${escapeHTML(d[2])}</p></div>`).join('');
+}
+
+/* =====================================================
+NUTRITION PLANS
+===================================================== */
+const nutritionPlans={
+ balanced:[
+ ['Monday','Breakfast','Oats + banana + milk/curd','Lunch','Rice/roti + dal + vegetables + curd','Snack','Fruit + nuts','Dinner','Roti/rice + vegetables + protein source'],
+ ['Tuesday','Breakfast','Idli/dosa + sambar + fruit','Lunch','Rice/roti + dal + vegetables','Snack','Curd + fruit','Dinner','Roti + vegetables + protein source'],
+ ['Wednesday','Breakfast','Poha/upma + fruit','Lunch','Rice + dal + vegetables + curd','Snack','Fruit or roasted chana','Dinner','Roti + vegetables + dal/egg/paneer'],
+ ['Thursday','Breakfast','Oats + fruit + milk/curd','Lunch','Rice/roti + dal + vegetables','Snack','Nuts + fruit','Dinner','Light balanced meal with vegetables and protein'],
+ ['Friday','Breakfast','Idli/dosa + sambar','Lunch','Rice/roti + vegetables + protein source','Snack','Curd + fruit','Dinner','Roti + vegetables + dal/egg/paneer'],
+ ['Saturday','Breakfast','Upma/poha + fruit','Lunch','Rice + dal + vegetables + curd','Snack','Fruit + nuts','Dinner','Roti/rice + vegetables + protein source'],
+ ['Sunday','Breakfast','Normal balanced breakfast','Lunch','Balanced family meal with vegetables and protein','Snack','Fruit/curd','Dinner','Light balanced dinner']
+ ],
+ highprotein:[
+ ['Monday','Breakfast','Oats + milk/curd + eggs or paneer + fruit','Lunch','Rice/roti + dal + chicken/fish/paneer + vegetables','Snack','Curd + nuts','Dinner','Roti + paneer/egg/chicken + vegetables'],
+ ['Tuesday','Breakfast','Eggs/paneer + whole-grain option + fruit','Lunch','Rice + dal + protein source + vegetables','Snack','Milk/curd + fruit','Dinner','Roti + dal + protein source + vegetables'],
+ ['Wednesday','Breakfast','Oats + curd + nuts + fruit','Lunch','Rice/roti + dal + protein source','Snack','Roasted chana + curd','Dinner','Roti + paneer/egg + vegetables'],
+ ['Thursday','Breakfast','Idli/dosa + sambar + eggs/paneer','Lunch','Rice/roti + dal + protein source + vegetables','Snack','Milk/curd + nuts','Dinner','Light meal with protein + vegetables'],
+ ['Friday','Breakfast','Oats + milk/curd + eggs/paneer','Lunch','Rice + dal + protein source + vegetables','Snack','Fruit + curd','Dinner','Roti + protein source + vegetables'],
+ ['Saturday','Breakfast','Upma/poha + eggs/paneer + fruit','Lunch','Balanced meal with extra protein source','Snack','Nuts + curd','Dinner','Roti/rice + dal + protein source'],
+ ['Sunday','Breakfast','Balanced high-protein breakfast','Lunch','Balanced meal with protein and vegetables','Snack','Fruit + curd','Dinner','Light protein-rich dinner']
+ ],
+ vegetarian:[
+ ['Monday','Breakfast','Oats + milk/curd + banana','Lunch','Rice/roti + dal + vegetables + curd','Snack','Fruit + nuts','Dinner','Roti + paneer/tofu + vegetables'],
+ ['Tuesday','Breakfast','Idli/dosa + sambar + fruit','Lunch','Rice + rajma/chana + vegetables','Snack','Curd + fruit','Dinner','Roti + dal + paneer/tofu'],
+ ['Wednesday','Breakfast','Poha/upma + curd + fruit','Lunch','Rice/roti + dal + vegetables','Snack','Roasted chana + fruit','Dinner','Roti + paneer/tofu + vegetables'],
+ ['Thursday','Breakfast','Oats + curd + fruit','Lunch','Rice + chole/rajma + vegetables','Snack','Nuts + curd','Dinner','Roti + dal + vegetables'],
+ ['Friday','Breakfast','Idli/dosa + sambar + fruit','Lunch','Rice/roti + dal + paneer + vegetables','Snack','Fruit + nuts','Dinner','Roti + tofu/paneer + vegetables'],
+ ['Saturday','Breakfast','Upma/poha + curd + fruit','Lunch','Rice + dal + vegetables + curd','Snack','Roasted chana + fruit','Dinner','Roti + paneer/tofu + vegetables'],
+ ['Sunday','Breakfast','Balanced vegetarian breakfast','Lunch','Balanced vegetarian family meal','Snack','Fruit/curd','Dinner','Light vegetarian dinner']
+ ]
+};
+function renderNutritionPlan(){
+ const goal=document.getElementById('nutritionGoal')?.value||'balanced'; const box=document.getElementById('nutritionPlanContainer'); if(!box)return;
+ box.innerHTML=nutritionPlans[goal].map(d=>`<div class="day-card"><h3>${d[0]}</h3><p><b>Breakfast:</b> ${escapeHTML(d[2])}</p><p><b>Lunch:</b> ${escapeHTML(d[4])}</p><p><b>Snack:</b> ${escapeHTML(d[6])}</p><p><b>Dinner:</b> ${escapeHTML(d[8])}</p></div>`).join('');
+}
+
+/* =====================================================
+FOOD INVENTORY
+===================================================== */
+let foodItems=JSON.parse(localStorage.getItem('gymproFoodItems')||'null')||[
+ {id:1,name:'Protein Shake',type:'Protein',unit:'bottle',cost:70,sale:100,stock:20,minStock:5,availability:'Available'},
+ {id:2,name:'Banana',type:'Fruit',unit:'piece',cost:5,sale:10,stock:50,minStock:10,availability:'Available'},
+ {id:3,name:'Greek Yogurt',type:'Meal',unit:'cup',cost:45,sale:65,stock:8,minStock:5,availability:'Available'},
+ {id:4,name:'Energy Bar',type:'Snack',unit:'pack',cost:35,sale:55,stock:3,minStock:5,availability:'Available'},
+ {id:5,name:'Mineral Water',type:'Drink',unit:'bottle',cost:10,sale:20,stock:0,minStock:10,availability:'Not Available'}
+];
+function saveFoodItems(){localStorage.setItem('gymproFoodItems',JSON.stringify(foodItems));}
+function foodStockBadge(item){if(item.stock<=0)return '<span class="stock-out">Out of Stock</span>'; if(item.stock<=item.minStock)return '<span class="stock-low">Low Stock</span>'; return '<span class="stock-ok">Available</span>';}
+function renderFoodInventory(){
+ const table=document.getElementById('foodInventoryTable'); if(!table)return;
+ document.getElementById('foodTotalItems').textContent=foodItems.length;
+ document.getElementById('foodAvailableItems').textContent=foodItems.filter(x=>x.stock>0&&x.availability==='Available').length;
+ document.getElementById('foodLowStock').textContent=foodItems.filter(x=>x.stock>0&&x.stock<=x.minStock).length;
+ document.getElementById('foodInventoryValue').textContent='₹'+foodItems.reduce((a,x)=>a+(Number(x.cost)||0)*(Number(x.stock)||0),0).toLocaleString();
+ table.innerHTML=foodItems.map(x=>{const profit=Number(x.sale)-Number(x.cost); return `<tr><td>${escapeHTML(x.name)}</td><td>${escapeHTML(x.type)}</td><td>${escapeHTML(x.unit)}</td><td>₹${Number(x.cost).toFixed(2)}</td><td>₹${Number(x.sale).toFixed(2)}</td><td class="price-profit">₹${profit.toFixed(2)}</td><td>${x.stock}</td><td>${x.stock>0&&x.availability==='Available'?'<span class="stock-ok">Available</span>':'<span class="stock-out">Not Available</span>'}</td><td><button class="edit-btn" onclick="editFoodItem(${x.id})">Edit</button> <button class="delete-btn" onclick="deleteFoodItem(${x.id})">Delete</button></td></tr>`;}).join('');
+ if(!foodItems.length)table.innerHTML='<tr><td colspan="9" style="text-align:center;padding:30px;">No food items added.</td></tr>';
+}
+function openFoodModal(item=null){
+ document.getElementById('foodModalTitle').textContent=item?'Edit Food Item':'Add Food Item';
+ document.getElementById('foodId').value=item?.id||''; document.getElementById('foodName').value=item?.name||''; document.getElementById('foodType').value=item?.type||'Protein'; document.getElementById('foodUnit').value=item?.unit||''; document.getElementById('foodCost').value=item?.cost??''; document.getElementById('foodSale').value=item?.sale??''; document.getElementById('foodStock').value=item?.stock??''; document.getElementById('foodMinStock').value=item?.minStock??5; document.getElementById('foodAvailability').value=item?.availability||'Available'; document.getElementById('foodModal').style.display='flex';
+}
+function closeFoodModal(){document.getElementById('foodModal').style.display='none';}
+function editFoodItem(id){const item=foodItems.find(x=>x.id===id);if(item)openFoodModal(item);}
+function deleteFoodItem(id){if(!confirm('Delete this food item?'))return;foodItems=foodItems.filter(x=>x.id!==id);saveFoodItems();renderFoodInventory();}
+document.getElementById('foodForm')?.addEventListener('submit',function(e){e.preventDefault();const id=Number(document.getElementById('foodId').value);const item={id:id||Date.now(),name:document.getElementById('foodName').value.trim(),type:document.getElementById('foodType').value,unit:document.getElementById('foodUnit').value.trim(),cost:Number(document.getElementById('foodCost').value),sale:Number(document.getElementById('foodSale').value),stock:Number(document.getElementById('foodStock').value),minStock:Number(document.getElementById('foodMinStock').value),availability:document.getElementById('foodAvailability').value};if(id){const i=foodItems.findIndex(x=>x.id===id);foodItems[i]=item;}else foodItems.push(item);saveFoodItems();renderFoodInventory();closeFoodModal();alert('Food item saved successfully!');});
+
+/* =====================================================
+HTML SECURITY
+===================================================== */
+
+function escapeHTML(value) {
+
+    return String(value)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+
+}
+
+
+/* =====================================================
+CLOSE MODALS WHEN CLICKING OUTSIDE
+===================================================== */
+
+window.addEventListener(
+    'click',
+    function(event) {
+
+        const memberModal =
+            document.getElementById(
+                'memberModal'
+            );
+
+
+        const trainerModal =
+            document.getElementById(
+                'trainerModal'
+            );
+
+
+        if (event.target === memberModal) {
+
+            closeMemberModal();
+
+        }
+
+
+        if (event.target === trainerModal) {
+
+            closeTrainerModal();
+
+        }
+
+        const foodModal = document.getElementById('foodModal');
+        if (event.target === foodModal) { closeFoodModal(); }
+
+    }
+);
+
+
+/* =====================================================
+INITIAL LOAD
+===================================================== */
+
+loadAll();
+
+document.addEventListener('keydown', function(event){ if(event.key === 'Escape') closeMemberDetails(); });
+
+</script>
+
+</body>
+</html>
